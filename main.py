@@ -23,6 +23,7 @@ Bot Help:
 Send *<payment_amount>* to insert your new payment'''
     await msg.answer(start_msg, parse_mode="markdown")
 
+
 @dp.message_handler()
 async def handle_message(msg: types.Message):
     if msg.text.isdigit():
@@ -31,8 +32,11 @@ async def handle_message(msg: types.Message):
             msg.from_user.id,
             int(msg.text)
         )
+
+        num = writer.getPaymentsCount(msg.from_user.id)
+
         await msg.answer(
-            'Thanks for your *%s* payment.' % writer.getPaymentsCount(msg.from_user.id),
+            'Thanks for your *%s* payment.' % (str(num) + suffix(num)),
             parse_mode="markdown"
         )
     else:
@@ -40,6 +44,15 @@ async def handle_message(msg: types.Message):
             'Wrong input. Try another number',
             parse_mode="markdown"
         )
+
+
+def suffix(day):
+    if 4 <= day <= 20 or 24 <= day <= 30:
+        suffix = "th"
+    else:
+        suffix = ["st", "nd", "rd"][day % 10 - 1]
+    return suffix
+
 
 if __name__ == "__main__":
     try:
