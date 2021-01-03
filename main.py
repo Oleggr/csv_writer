@@ -4,16 +4,16 @@ from aiogram import Bot, types
 from aiogram.utils import executor
 from aiogram.dispatcher import Dispatcher
 
-from csvWriter import csvWriter
+from csvWriter import CsvWriter
 
 
-admins = ['admin_id', 'second_admin_id']
+admins = ['your_admin_id']
 BOT_TOKEN = 'token'
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher(bot)
 
-writer = csvWriter()
+writer = CsvWriter()
 
 
 @dp.message_handler(commands=["start"])
@@ -23,16 +23,20 @@ Bot Help:
 Send *<payment_amount>* to insert your new payment'''
     await msg.answer(start_msg, parse_mode="markdown")
 
-@dp.message_handler(commands=["dept"])
+
+@dp.message_handler(commands=["moth_debts"])
 async def start_command(msg: types.Message):
-    patt = r'(?P<name>[\wА-Яа-я]+)\s*,\s*(?P<payment>\d+)'
-    values = re.search(patt, msg.text)
-    if patt is not None:
-        name, paymant = values.group('name'), values.group('payment')
-        # TODO fucntion to write values
-        await msg.answer('Success')
+
+    if str(msg.from_user.id) in admins:
+        await msg.answer(
+            'This moth income is %s.' % writer.getTotalMonthsPayments(),
+            parse_mode="markdown"
+        )
     else:
-        await msg.answer('Nothing to write')
+        await msg.answer(
+            'Wrong input. Try another number',
+            parse_mode="markdown"
+        )
 
 
 @dp.message_handler()
