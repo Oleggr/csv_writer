@@ -27,7 +27,7 @@ async def start_command(msg: types.Message):
 
     if str(msg.from_user.id) in admins:
         await msg.answer(
-            'This moth income is %s.' % writer.getTotalMonthsPayments(),
+            'This month income is %s.' % writer.getTotalMonthsPayments(),
             parse_mode="markdown"
         )
     else:
