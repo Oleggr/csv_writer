@@ -5,8 +5,8 @@ from aiogram.dispatcher import Dispatcher
 from csvWriter import CsvWriter
 
 
-admins = ['your_admin_id']
-BOT_TOKEN = 'token'
+admins = ['6509339', '122031432']
+BOT_TOKEN = '944547365:AAH67D-oXzAtRXdYX5SsZtBFq_m_rOMxaWA'
 
 bot = Bot(token=BOT_TOKEN)
 dp = Dispatcher(bot)
