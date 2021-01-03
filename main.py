@@ -22,7 +22,7 @@ Send *<payment_amount>* to insert your new payment'''
     await msg.answer(start_msg, parse_mode="markdown")
 
 
-@dp.message_handler(commands=["moth_debts"])
+@dp.message_handler(commands=["month_debts"])
 async def start_command(msg: types.Message):
 
     if str(msg.from_user.id) in admins:
