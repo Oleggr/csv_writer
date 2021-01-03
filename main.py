@@ -1,4 +1,4 @@
-import csv
+import csv, re
 
 from aiogram import Bot, types
 from aiogram.utils import executor
@@ -22,6 +22,17 @@ async def start_command(msg: types.Message):
 Bot Help:
 Send *<payment_amount>* to insert your new payment'''
     await msg.answer(start_msg, parse_mode="markdown")
+
+@dp.message_handler(commands=["dept"])
+async def start_command(msg: types.Message):
+    patt = r'(?P<name>[\wА-Яа-я]+)\s*,\s*(?P<payment>\d+)'
+    values = re.search(patt, msg.text)
+    if patt is not None:
+        name, paymant = values.group('name'), values.group('payment')
+        # TODO fucntion to write values
+        await msg.answer('Success')
+    else:
+        await msg.answer('Nothing to write')
 
 
 @dp.message_handler()
