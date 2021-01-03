@@ -24,7 +24,6 @@ Send *<payment_amount>* to insert your new payment'''
 
 @dp.message_handler(commands=["month_debts"])
 async def start_command(msg: types.Message):
-
     if str(msg.from_user.id) in admins:
         await msg.answer(
             'This month income is %s.' % writer.getTotalMonthsPayments(),
@@ -53,6 +52,15 @@ async def handle_message(msg: types.Message):
             parse_mode="markdown"
         )
     else:
+        event = [
+            msg.from_user.full_name,
+            msg.from_user.id,
+            CsvWriter.getCurrTimestamp(),
+            msg.text
+        ]
+
+        writer.writeLog(event, writer.messages_log)
+
         await msg.answer(
             'Wrong input. Try another number',
             parse_mode="markdown"

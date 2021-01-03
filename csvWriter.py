@@ -5,17 +5,20 @@ from datetime import datetime, timedelta
 class CsvWriter:
 
     payments_filename = 'payments.csv'
+    events_log = 'events.log'
+    messages_log = 'messages.log'
 
     def writePayment(self, name, tg_id, amount):
         with open(self.payments_filename, 'a', newline='') as file:
             payment = [
                 name,
                 tg_id,
-                int(datetime.now().timestamp()),
+                CsvWriter.getCurrTimestamp(),
                 amount
             ]
             writer = csv.writer(file)
             writer.writerow(payment)
+            self.writeLog(payment, self.events_log)
 
     def getPaymentsCount(self, tg_id):
         with open(self.payments_filename, newline='') as file:
@@ -33,3 +36,17 @@ class CsvWriter:
 
         return payments_total
 
+    def writeLog(self, event, filename):
+        with open(filename, 'a', encoding='utf-8') as file:
+            message = str(datetime.fromtimestamp(event[2])) \
+                    + ' :: ' \
+                    + str(event[0]) \
+                    + ' (' \
+                    + str(event[1]) \
+                    + ') | ' \
+                    + str(event[3])
+            file.write(message + '\n')
+
+    @staticmethod
+    def getCurrTimestamp():
+        return int(datetime.now().timestamp())
