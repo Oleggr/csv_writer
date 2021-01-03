@@ -53,14 +53,7 @@ async def handle_message(msg: types.Message):
         )
 
 if __name__ == "__main__":
-    patt = r'(?P<name>[\wА-Яа-я]+)\s*,\s*(?P<payment>\d+)'
-    values = re.search(patt, 'vasya, 21345')
-    if patt is not None:
-        name, paymant = values.group('name'), values.group('payment')
-        print(name, paymant)
-    else:
-        pass
-    # try:
-    #     executor.start_polling(dp)
-    # except Exception as e:
-    #     print('Error while polling: {}'.format(e))
+    try:
+        executor.start_polling(dp)
+    except Exception as e:
+        print('Error while polling: {}'.format(e))
